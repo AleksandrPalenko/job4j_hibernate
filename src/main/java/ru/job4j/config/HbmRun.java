@@ -6,7 +6,12 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
+import ru.job4j.model.BrandOfCar;
 import ru.job4j.model.Candidate;
+import ru.job4j.model.ModelOfCar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HbmRun {
@@ -17,6 +22,21 @@ public class HbmRun {
             SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
             Session session = sf.openSession();
             session.beginTransaction();
+
+            List<ModelOfCar> model = new ArrayList<>();
+            model.add(ModelOfCar.of("Vesta"));
+            model.add(ModelOfCar.of("Largus"));
+            model.add(ModelOfCar.of("Priora"));
+            model.add(ModelOfCar.of("Granta"));
+            model.add(ModelOfCar.of("Xray"));
+            model.forEach(session::save);
+
+            BrandOfCar brand = BrandOfCar.of("Lada");
+            for (int i = 1; i < model.size(); i++) {
+                brand.addModelOfCar(session.load(ModelOfCar.class, i));
+            }
+            session.save(brand);
+
             /**
              Candidate one = Candidate.of("Ivan", 1.1, 1000);
              Candidate two = Candidate.of("Alex", 3.1, 3000);
@@ -39,18 +59,17 @@ public class HbmRun {
              query.setParameter("newSalary", 3200);
              query.setParameter("fId", 1);
              query.executeUpdate();
-             */
-            Query querySelectAll = session.createQuery("from Candidate");
-            for (Object st : querySelectAll.list()) {
-                System.out.println(st);
-            }
-            Query querySelectId = session.createQuery("from Candidate s where s.id = :fId");
-            querySelectId.setParameter("fId", 4);
-            System.out.println(querySelectId.uniqueResult());
-            Query querySelectByName = session.createQuery("from Candidate s where s.name = :fName");
-            querySelectByName.setParameter("fName", "Anna");
-            System.out.println(querySelectByName.getResultList());
-            /**
+             Query querySelectAll = session.createQuery("from Candidate");
+             for (Object st : querySelectAll.list()) {
+             System.out.println(st);
+             }
+             Query querySelectId = session.createQuery("from Candidate s where s.id = :fId");
+             querySelectId.setParameter("fId", 4);
+             System.out.println(querySelectId.uniqueResult());
+             Query querySelectByName = session.createQuery("from Candidate s where s.name = :fName");
+             querySelectByName.setParameter("fName", "Anna");
+             System.out.println(querySelectByName.getResultList());
+             /**
              session.createQuery("delete from Candidate where id = :fId")
              .setParameter("fId", 1)
              .executeUpdate();
