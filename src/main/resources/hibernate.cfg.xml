@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/Computer</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/vacancy</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">Gfwfyxbr47</property>
         <property name="hibernate.connection.pool_size">1</property>
@@ -17,7 +17,8 @@
         <property name="format_sql">true</property>
         <property name="use_sql_comments">true</property>
 
-        <mapping class="ru.job4j.model.BrandOfComputer" />
-        <mapping class="ru.job4j.model.ModelOfComputer" />
+        <mapping class="ru.job4j.model.Vacancy" />
+        <mapping class="ru.job4j.model.DbOfVacancy" />
+        <mapping class="ru.job4j.model.Candidate" />
     </session-factory>
 </hibernate-configuration>

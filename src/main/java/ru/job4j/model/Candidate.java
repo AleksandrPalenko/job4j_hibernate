@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "candidate")
+@Table(name = "candidates")
 public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +12,9 @@ public class Candidate {
     private String name;
     private double experience;
     private int salary;
+
+   @OneToOne(fetch = FetchType.LAZY)
+   private DbOfVacancy db;
 
     public static Candidate of(String name, double experience, int salary) {
         Candidate candidate = new Candidate();
@@ -51,6 +54,14 @@ public class Candidate {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    public DbOfVacancy getDb() {
+        return db;
+    }
+
+    public void setDb(DbOfVacancy db) {
+        this.db = db;
     }
 
     @Override
